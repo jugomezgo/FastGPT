@@ -47,3 +47,4 @@ tmp/
 
 mongo/
 pg/
+scripts/

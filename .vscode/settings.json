@@ -23,7 +23,7 @@
     "i18n-ally.extract.targetPickingStrategy": "most-similar-by-key",
     "i18n-ally.translate.engines": ["google"],
     "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "vscode.typescript-language-features"
     },
     "markdown.copyFiles.destination": {
         "/docSite/content/**/*": "${documentWorkspaceFolder}/docSite/assets/imgs/"
