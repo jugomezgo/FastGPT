@@ -49,7 +49,8 @@ const LoginForm = ({ setPageType, loginSuccess }: Props) => {
     }
   );
 
-  const isCommunityVersion = !!(feConfigs?.register_method && !feConfigs?.isPlus);
+  // const isCommunityVersion = !!(feConfigs?.register_method && !feConfigs?.isPlus);
+  const isCommunityVersion = false;
 
   const placeholder = (() => {
     if (isCommunityVersion) {

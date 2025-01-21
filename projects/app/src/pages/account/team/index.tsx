@@ -88,7 +88,7 @@ const Team = () => {
               <TeamSelector height={'28px'} />
             </Flex>
             {userInfo?.team?.role === TeamMemberRoleEnum.owner && (
-              <Flex align={'center'} justify={'center'} ml={2} p={'0.44rem'}>
+              <Flex align={'c enter'} justify={'center'} ml={2} p={'0.44rem'}>
                 <MyIcon
                   name="edit"
                   w="18px"

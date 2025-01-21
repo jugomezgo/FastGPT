@@ -19,7 +19,8 @@ export const useSendCode = ({ type }: { type: `${UserAuthTypeEnum}` }) => {
   const { runAsync: sendCode, loading: codeSending } = useRequest2(
     async ({ username, captcha }: { username: string; captcha: string }) => {
       if (codeCountDown > 0) return;
-      const googleToken = await getClientToken(feConfigs.googleClientVerKey);
+      // const googleToken = await getClientToken(feConfigs.googleClientVerKey);
+      const googleToken = '';
       await sendAuthCode({ username, type, googleToken, captcha });
 
       setCodeCountDown(60);
@@ -81,7 +82,8 @@ export const useSendCode = ({ type }: { type: `${UserAuthTypeEnum}` }) => {
                       title: t('common:error.username_empty')
                     });
                   } else {
-                    onOpenCodeAuthModal();
+                    // onOpenCodeAuthModal();
+                    sendCode({ username, captcha: '' });
                   }
                 }
               })}
