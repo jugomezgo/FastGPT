@@ -5,7 +5,8 @@
     "register_method": [
       "email",
       "phone"
-    ]
+    ],
+    "isPlus": true
   },
   "systemEnv": {
     "vectorMaxProcess": 15, // 向量处理线程数量

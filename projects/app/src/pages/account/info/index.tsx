@@ -220,7 +220,7 @@ const MyInfo = ({ onOpenContact }: { onOpenContact: () => void }) => {
             </Flex>
           </Flex>
         )}
-        {feConfigs?.isPlus && (
+        {true && (
           <Flex mt={[0, 4]} alignItems={'center'}>
             <Box {...labelStyles}>{t('account_info:member_name')}:&nbsp;</Box>
             <Input
@@ -245,7 +245,7 @@ const MyInfo = ({ onOpenContact }: { onOpenContact: () => void }) => {
           <Box {...labelStyles}>{t('account_info:user_account')}:&nbsp;</Box>
           <Box flex={1}>{userInfo?.username}</Box>
         </Flex>
-        {feConfigs?.isPlus && (
+        {true && (
           <Flex mt={6} alignItems={'center'}>
             <Box {...labelStyles}>{t('account_info:password')}:&nbsp;</Box>
             <Box flex={1}>*****</Box>
@@ -254,7 +254,7 @@ const MyInfo = ({ onOpenContact }: { onOpenContact: () => void }) => {
             </Button>
           </Flex>
         )}
-        {feConfigs?.isPlus && (
+        {true && (
           <Flex mt={6} alignItems={'center'}>
             <Box {...labelStyles}>{t('account_info:notification_receiving')}:&nbsp;</Box>
             <Box
@@ -277,7 +277,7 @@ const MyInfo = ({ onOpenContact }: { onOpenContact: () => void }) => {
             )}
           </Flex>
         )}
-        {feConfigs.isPlus && (
+        {true && (
           <Flex mt={6} alignItems={'center'}>
             <Box {...labelStyles}>{t('account_info:user_team_team_name')}:&nbsp;</Box>
             <Flex flex={'1 0 0'} w={0} align={'center'}>
@@ -285,7 +285,7 @@ const MyInfo = ({ onOpenContact }: { onOpenContact: () => void }) => {
             </Flex>
           </Flex>
         )}
-        {feConfigs?.isPlus && (userInfo?.team?.balance ?? 0) > 0 && (
+        {true && (userInfo?.team?.balance ?? 0) > 0 && (
           <Box mt={6} whiteSpace={'nowrap'}>
             <Flex alignItems={'center'}>
               <Box {...labelStyles}>{t('account_info:team_balance')}:&nbsp;</Box>

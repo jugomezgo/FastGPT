@@ -118,5 +118,21 @@
 			"  expect(res.data.length).toBe(0);",
 			"});"
 			]
+	},
+	"Next.js API Route with Frequency Limit": {
+		"scope": "javascript,typescript",
+		"prefix": "napi",
+		"body": [
+		"import type { NextApiRequest, NextApiResponse } from 'next';",
+		"",
+		"import { NextAPI } from \"@/service/middleware/entry\";",
+		"import { useReqFrequencyLimit } from '@fastgpt/service/common/middle/reqFrequencyLimit';",
+		"",
+		"async function handler(req: NextApiRequest, res: NextApiResponse) {",
+		"  $1",
+		"}",
+		"",
+		"export default NextAPI(useReqFrequencyLimit(${2:120}, ${3:10}, ${4:true}), handler);"
+		]
 	}
 }
