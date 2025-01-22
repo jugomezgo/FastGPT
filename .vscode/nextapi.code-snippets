@@ -127,6 +127,7 @@
 		"",
 		"import { NextAPI } from \"@/service/middleware/entry\";",
 		"import { useReqFrequencyLimit } from '@fastgpt/service/common/middle/reqFrequencyLimit';",
+		"import { authCert } from '@fastgpt/service/support/permission/auth/common';",
 		"",
 		"async function handler(req: NextApiRequest, res: NextApiResponse) {",
 		"  $1",

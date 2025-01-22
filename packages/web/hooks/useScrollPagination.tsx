@@ -60,7 +60,7 @@ export function useVirtualScrollPagination<
   const [total, setTotal] = useState(0);
   const [isLoading, { setTrue, setFalse }] = useBoolean(false);
 
-  const noMore = data.length >= total;
+  const noMore = (data?.length || 0) >= total;
 
   const [list] = useVirtualList<TData['list'][0]>(data, {
     containerTarget: containerRef,

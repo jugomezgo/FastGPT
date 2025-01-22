@@ -4,7 +4,7 @@ import type { FastGPTFeConfigsType } from '@fastgpt/global/common/system/types/i
 import type { FastGPTConfigFileType } from '@fastgpt/global/common/system/types/index.d';
 import { PluginSourceEnum } from '@fastgpt/global/core/plugin/constants';
 import { getFastGPTConfigFromDB } from '@fastgpt/service/common/system/config/controller';
-import { FastGPTProUrl } from '@fastgpt/service/common/system/constants';
+// import { FastGPTProUrl } from '@fastgpt/service/common/system/constants';
 import { isProduction } from '@fastgpt/global/common/system/constants';
 import { initFastGPTConfig } from '@fastgpt/service/common/system/tools';
 import json5 from 'json5';
@@ -58,7 +58,7 @@ export async function getInitConfig() {
 
 const defaultFeConfigs: FastGPTFeConfigsType = {
   show_emptyChat: true,
-  show_git: true,
+  show_git: false,
   docUrl: 'https://doc.tryfastgpt.ai',
   openAPIDocUrl: 'https://doc.tryfastgpt.ai/docs/development/openapi',
   systemPluginCourseUrl: 'https://fael3z0zfze.feishu.cn/wiki/ERZnw9R26iRRG0kXZRec6WL9nwh',
@@ -90,7 +90,7 @@ export async function initSystemConfig() {
       ...fileRes?.feConfigs,
       ...defaultFeConfigs,
       ...(dbConfig.feConfigs || {}),
-      isPlus: !!FastGPTProUrl
+      isPlus: true,
     },
     systemEnv: {
       ...fileRes.systemEnv,

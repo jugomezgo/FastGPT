@@ -6,7 +6,25 @@
       "email",
       "phone"
     ],
-    "isPlus": true
+    "subPlans": {
+      "standard": {
+        "free": {
+          "price": 0,
+          "pointPrice": 0,
+          "totalPoints": 100,
+          "maxTeamMember": 3,
+          "maxAppAmount": 30,
+          "maxDatasetAmount": 10,
+          "chatHistoryStoreDuration": 30,
+          "maxDatasetSize": 600,
+          "trainingWeight": 1,
+          "permissionCustomApiKey": false,
+          "permissionCustomCopyright": false,
+          "permissionWebsiteSync": false,
+          "permissionReRank": false
+        }
+      }
+    }
   },
   "systemEnv": {
     "vectorMaxProcess": 15, // 向量处理线程数量

@@ -5,7 +5,6 @@ import { useReqFrequencyLimit } from '@fastgpt/service/common/middle/reqFrequenc
 import { authCert } from '@fastgpt/service/support/permission/auth/common';
 import { MongoTeamMember } from '@fastgpt/service/support/user/team/teamMemberSchema';
 import { getTmbInfoByTmbId } from '@fastgpt/service/support/user/team/controller';
-import team from '@fastgpt/global/common/error/code/team';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     // 凭证校验
@@ -16,7 +15,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const teamIds = await MongoTeamMember.find({
         userId,
-        status: status
+        status
     })
         .select('teamId')
         .lean();
@@ -28,7 +27,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         const teamMember = await MongoTeamMember.findOne({
             teamId,
             userId,
-            status: 'active'
+            status
         }).lean();
 
         if (teamMember) {
