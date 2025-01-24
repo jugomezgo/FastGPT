@@ -1,4 +1,4 @@
-import { getTeamPlanStatus, getTeamStandPlan } from '../../support/wallet/sub/utils';
+import { getTeamPlanStatus, getTeamStandPlan } from '../wallet/sub/utils';
 import { MongoApp } from '../../core/app/schema';
 import { MongoDataset } from '../../core/dataset/schema';
 import { DatasetTypeEnum } from '@fastgpt/global/core/dataset/constants';

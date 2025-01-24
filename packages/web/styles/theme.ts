@@ -1,12 +1,12 @@
-import { extendTheme, defineStyleConfig, ComponentStyleConfig } from '@chakra-ui/react';
+import { ComponentStyleConfig, defineStyleConfig, extendTheme } from '@chakra-ui/react';
 import {
-  modalAnatomy,
-  switchAnatomy,
-  selectAnatomy,
-  numberInputAnatomy,
   checkboxAnatomy,
-  tableAnatomy,
-  radioAnatomy
+  modalAnatomy,
+  numberInputAnatomy,
+  radioAnatomy,
+  selectAnatomy,
+  switchAnatomy,
+  tableAnatomy
 } from '@chakra-ui/anatomy';
 import { createMultiStyleConfigHelpers, defineStyle } from '@chakra-ui/styled-system';
 
@@ -685,42 +685,42 @@ export const theme = extendTheme({
       900: '#111824'
     },
     primary: {
-      1: 'rgba(51, 112, 255, 0.1)',
-      '015': 'rgba(51, 112, 255, 0.15)',
-      3: 'rgba(51, 112, 255, 0.3)',
-      5: 'rgba(51, 112, 255, 0.5)',
-      7: 'rgba(51, 112, 255, 0.7)',
-      9: 'rgba(51, 112, 255, 0.9)',
+      1: 'rgba(129, 33, 137, 0.1)', // 更新为紫色的透明度
+      '015': 'rgba(129, 33, 137, 0.15)',
+      3: 'rgba(129, 33, 137, 0.3)',
+      5: 'rgba(129, 33, 137, 0.5)',
+      7: 'rgba(129, 33, 137, 0.7)',
+      9: 'rgba(129, 33, 137, 0.9)',
 
-      50: '#F0F4FF',
-      100: '#E1EAFF',
-      200: '#C5D7FF',
-      300: '#94B5FF',
-      400: '#5E8FFF',
-      500: '#487FFF',
-      600: '#3370FF',
-      700: '#2B5FD9',
-      800: '#2450B5',
-      900: '#1D4091'
+      50: '#f0d4f2', // 最浅
+      100: '#e7c6e9',
+      200: '#ddb5e0',
+      300: '#cf9ed2',
+      400: '#c18ac5',
+      500: '#b373b8',
+      600: '#a35daa',
+      700: '#96489d',
+      800: '#8b3693',
+      900: '#812189' // 最深
     },
     blue: {
-      1: 'rgba(51, 112, 255, 0.1)',
-      '015': 'rgba(51, 112, 255, 0.15)',
-      3: 'rgba(51, 112, 255, 0.3)',
-      5: 'rgba(51, 112, 255, 0.5)',
-      7: 'rgba(51, 112, 255, 0.7)',
-      9: 'rgba(51, 112, 255, 0.9)',
+      1: 'rgba(129, 33, 137, 0.1)', // 更新为紫色的透明度
+      '015': 'rgba(129, 33, 137, 0.15)',
+      3: 'rgba(129, 33, 137, 0.3)',
+      5: 'rgba(129, 33, 137, 0.5)',
+      7: 'rgba(129, 33, 137, 0.7)',
+      9: 'rgba(129, 33, 137, 0.9)',
 
-      50: '#F0F4FF',
-      100: '#E1EAFF',
-      200: '#C5D7FF',
-      300: '#94B5FF',
-      400: '#5E8FFF',
-      500: '#487FFF',
-      600: '#3370FF',
-      700: '#2B5FD9',
-      800: '#2450B5',
-      900: '#1D4091'
+      50: '#f0d4f2', // 最浅
+      100: '#e7c6e9',
+      200: '#ddb5e0',
+      300: '#cf9ed2',
+      400: '#c18ac5',
+      500: '#b373b8',
+      600: '#a35daa',
+      700: '#96489d',
+      800: '#8b3693',
+      900: '#812189' // 最深
     },
     red: {
       1: 'rgba(217,45,32,0.1)',

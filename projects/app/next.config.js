@@ -9,7 +9,7 @@ const nextConfig = {
   basePath: process.env.NEXT_PUBLIC_BASE_URL,
   i18n,
   output: 'standalone',
-  reactStrictMode: isDev ? false : true,
+  reactStrictMode: !isDev,
   compress: true,
   webpack(config, { isServer, nextRuntime }) {
     Object.assign(config.resolve.alias, {

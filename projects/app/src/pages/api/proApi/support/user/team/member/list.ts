@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { NextAPI } from "@/service/middleware/entry";
+import { NextAPI } from '@/service/middleware/entry';
 import { useReqFrequencyLimit } from '@fastgpt/service/common/middle/reqFrequencyLimit';
 import { authCert } from '@fastgpt/service/support/permission/auth/common';
 import { MongoTeamMember } from '@fastgpt/service/support/user/team/teamMemberSchema';
@@ -8,7 +8,7 @@ import { getResourcePermission } from '@fastgpt/service/support/permission/contr
 import { PerResourceTypeEnum } from '@fastgpt/global/support/permission/constant';
 import { TeamPermission } from '@fastgpt/global/support/permission/user/controller';
 import { TeamDefaultPermissionVal } from '@fastgpt/global/support/permission/user/constant';
-import { TeamMemberRoleEnum, notLeaveStatus } from '@fastgpt/global/support/user/team/constant';
+import { notLeaveStatus, TeamMemberRoleEnum } from '@fastgpt/global/support/user/team/constant';
 import { Types } from '@fastgpt/service/common/mongo';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -63,8 +63,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     offset,
     total,
     list
-  }
+  };
 }
 
-// useReqFrequencyLimit(120, 10, true),
-export default NextAPI(handler);
+export default NextAPI(useReqFrequencyLimit(120, 10, true), handler);

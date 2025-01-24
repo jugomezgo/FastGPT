@@ -24,7 +24,8 @@
           "permissionReRank": false
         }
       }
-    }
+    },
+    "show_pay": true
   },
   "systemEnv": {
     "vectorMaxProcess": 15, // 向量处理线程数量

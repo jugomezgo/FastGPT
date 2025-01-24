@@ -63,7 +63,7 @@ const AccountContainer = ({
           }
         ]
       : []),
-    ...(feConfigs?.show_pay && userInfo?.team?.permission.hasManagePer
+    ...(userInfo?.team?.permission.hasManagePer
       ? [
           {
             icon: 'support/bill/payRecordLight',
