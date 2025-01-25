@@ -1,0 +1,87 @@
+version: '3.3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace:cached
+      - node_modules:/workspace/node_modules
+    command: sleep infinity
+    environment:
+      - NODE_ENV=development
+      # 更新数据库连接串，包含认证信息
+      - MONGODB_URI=mongodb://fastgpt:1314520max@mongo:27017/fastgpt?authSource=admin
+      - PG_URL=postgresql://fastgpt:1314520max@pg:5432/fastgpt
+    ports:
+      - "3000:3000"
+    networks:
+      - fastgpt
+
+  pg:
+    image: pgvector/pgvector:0.7.0-pg15
+    container_name: pg
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - fastgpt
+    environment:
+      - POSTGRES_USER=fastgpt
+      - POSTGRES_PASSWORD=1314520max
+      - POSTGRES_DB=fastgpt
+    volumes:
+      # 修改为独立的数据目录
+      - ~/docker/data/pg:/var/lib/postgresql/data
+
+  mongo:
+    image: mongo:5.0.18
+    container_name: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - fastgpt
+    command: mongod --keyFile /data/mongodb.key --replSet rs0
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=fastgpt
+      - MONGO_INITDB_ROOT_PASSWORD=1314520max
+    volumes:
+      # 修改为独立的数据目录
+      - ~/docker/data/mongo:/data/db
+    entrypoint:
+      - bash
+      - -c
+      - |
+        openssl rand -base64 128 > /data/mongodb.key
+        chmod 400 /data/mongodb.key
+        chown 999:999 /data/mongodb.key
+        echo 'const isInited = rs.status().ok === 1
+        if(!isInited){
+          rs.initiate({
+              _id: "rs0",
+              members: [
+                  { _id: 0, host: "mongo:27017" }
+              ]
+          })
+        }' > /data/initReplicaSet.js
+        exec docker-entrypoint.sh "$$@" &
+        until mongo -u fastgpt -p 1314520max --authenticationDatabase admin --eval "print('waited for connection')" > /dev/null 2>&1; do
+          echo "Waiting for MongoDB to start..."
+          sleep 2
+        done
+        mongo -u fastgpt -p 1314520max --authenticationDatabase admin /data/initReplicaSet.js
+        wait $$!
+
+  sandbox:
+    container_name: sandbox
+    image: ghcr.io/labring/fastgpt-sandbox:v4.8.17
+    networks:
+      - fastgpt
+    restart: always
+
+networks:
+  fastgpt:
+
+volumes:
+  node_modules:
