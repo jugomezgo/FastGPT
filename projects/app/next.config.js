@@ -1,6 +1,6 @@
-import {i18n} from './next-i18next.config.js';
-import {join, resolve} from 'path';
-import {readdirSync, statSync} from 'fs';
+const { i18n } = require('./next-i18next.config');
+const path = require('path');
+const fs = require('fs');
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -20,9 +20,9 @@ const nextConfig = {
     '@zilliz/milvus2-sdk-node'
   ],
 
-  outputFileTracingRoot: join(__dirname, '../../'),
+  outputFileTracingRoot: path.join(__dirname, '../../'),
 
-  webpack(config, {isServer, nextRuntime}) {
+  webpack(config, { isServer, nextRuntime }) {
     Object.assign(config.resolve.alias, {
       '@mongodb-js/zstd': false,
       '@aws-sdk/credential-providers': false,
@@ -44,7 +44,7 @@ const nextConfig = {
         },
         {
           test: /\.node$/,
-          use: [{loader: 'nextjs-node-loader'}]
+          use: [{ loader: 'nextjs-node-loader' }]
         }
       ]),
       exprContextCritical: false,
@@ -65,9 +65,9 @@ const nextConfig = {
             return {
               ...entries,
               ...getWorkerConfig(),
-              'worker/systemPluginRun': resolve(
-                  process.cwd(),
-                  '../../packages/plugins/runtime/worker.ts'
+              'worker/systemPluginRun': path.resolve(
+                process.cwd(),
+                '../../packages/plugins/runtime/worker.ts'
               )
             };
           }
@@ -93,15 +93,16 @@ const nextConfig = {
   transpilePackages: ['@fastgpt/*', 'ahooks'],
 };
 
-export default nextConfig;
+module.exports = nextConfig;
 
 function getWorkerConfig() {
-  const result = readdirSync(resolve(__dirname, '../../packages/service/worker'));
+  const result = fs.readdirSync(path.resolve(__dirname, '../../packages/service/worker'));
 
   // 获取所有的目录名
   const folderList = result.filter((item) => {
-    return statSync(resolve(__dirname, '../../packages/service/worker', item))
-        .isDirectory();
+    return fs
+      .statSync(path.resolve(__dirname, '../../packages/service/worker', item))
+      .isDirectory();
   });
 
   /* 
@@ -121,7 +122,7 @@ function getWorkerConfig() {
     }
   */
   const workerConfig = folderList.reduce((acc, item) => {
-    acc[`worker/${item}`] = resolve(
+    acc[`worker/${item}`] = path.resolve(
       process.cwd(),
       `../../packages/service/worker/${item}/index.ts`
     );

@@ -140,6 +140,65 @@ export async function createDefaultTeam({
   }
 }
 
+export async function joinDefaultTeam({
+  userId,
+  session
+}: {
+  userId: string;
+  session: ClientSession;
+}) {
+  // 查找isPublic为true，且owner为root的team
+  const rootUser = await MongoTeamMember.findOne({
+    username: 'root'
+  });
+
+  console.log('rootUser:', rootUser);
+
+  const team = await MongoTeam.findOne({
+    isPublic: true,
+    ownerId: rootUser?.userId
+  });
+
+  console.log('team_filter:', {
+    isPublic: true,
+    ownerId: rootUser?.userId
+  });
+
+  // 如果没有找到默认team，抛出异常
+  if (!team) {
+    return Promise.reject('Default team not found');
+  }
+
+  // 查找是否已经加入默认team
+  const tmb = await MongoTeamMember.findOne({
+    userId: new Types.ObjectId(userId),
+    teamId: team._id
+  });
+
+  // 如果已经加入默认team，返回
+  if (tmb) {
+    return tmb;
+  }
+
+  // 创建team member
+  const [insertedTmb] = await MongoTeamMember.create(
+    [
+      {
+        teamId: team._id,
+        userId,
+        name: 'Member',
+        role: TeamMemberRoleEnum.member,
+        status: TeamMemberStatusEnum.active,
+        createTime: new Date(),
+        defaultTeam: true
+      }
+    ],
+    { session }
+  );
+
+  return insertedTmb;
+}
+
 export async function updateTeam({
   teamId,
   name,

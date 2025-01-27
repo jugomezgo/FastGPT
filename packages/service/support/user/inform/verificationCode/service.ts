@@ -14,7 +14,7 @@ const config: VerificationCodeConfig = {
   codeLength: 6
 };
 
-export class VerificationCodeService implements IVerificationCodeService {
+export class verificationCodeService implements IVerificationCodeService {
   private generateCode(): string {
     return Math.random()
       .toString()
@@ -82,3 +82,5 @@ export class VerificationCodeService implements IVerificationCodeService {
     return timeDiff >= config.cooldown * 1000;
   }
 }
+
+export const vericationService = new verificationCodeService();

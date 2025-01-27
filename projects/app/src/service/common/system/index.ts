@@ -90,7 +90,7 @@ export async function initSystemConfig() {
       ...fileRes?.feConfigs,
       ...defaultFeConfigs,
       ...(dbConfig.feConfigs || {}),
-      isPlus: true,
+      isPlus: true
     },
     systemEnv: {
       ...fileRes.systemEnv,
