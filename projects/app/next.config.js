@@ -1,6 +1,6 @@
-const { i18n } = require('./next-i18next.config');
-const path = require('path');
-const fs = require('fs');
+import {i18n} from './next-i18next.config.js';
+import {join, resolve} from 'path';
+import {readdirSync, statSync} from 'fs';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -11,7 +11,18 @@ const nextConfig = {
   output: 'standalone',
   reactStrictMode: !isDev,
   compress: true,
-  webpack(config, { isServer, nextRuntime }) {
+
+  // 将 experimental.serverComponentsExternalPackages 移到这里
+  serverExternalPackages: [
+    'mongoose',
+    'pg',
+    '@node-rs/jieba',
+    '@zilliz/milvus2-sdk-node'
+  ],
+
+  outputFileTracingRoot: join(__dirname, '../../'),
+
+  webpack(config, {isServer, nextRuntime}) {
     Object.assign(config.resolve.alias, {
       '@mongodb-js/zstd': false,
       '@aws-sdk/credential-providers': false,
@@ -33,7 +44,7 @@ const nextConfig = {
         },
         {
           test: /\.node$/,
-          use: [{ loader: 'nextjs-node-loader' }]
+          use: [{loader: 'nextjs-node-loader'}]
         }
       ]),
       exprContextCritical: false,
@@ -54,9 +65,9 @@ const nextConfig = {
             return {
               ...entries,
               ...getWorkerConfig(),
-              'worker/systemPluginRun': path.resolve(
-                process.cwd(),
-                '../../packages/plugins/runtime/worker.ts'
+              'worker/systemPluginRun': resolve(
+                  process.cwd(),
+                  '../../packages/plugins/runtime/worker.ts'
               )
             };
           }
@@ -80,29 +91,17 @@ const nextConfig = {
     return config;
   },
   transpilePackages: ['@fastgpt/*', 'ahooks'],
-  experimental: {
-    // 优化 Server Components 的构建和运行，避免不必要的客户端打包。
-    serverComponentsExternalPackages: [
-      'mongoose',
-      'pg',
-      '@node-rs/jieba',
-      '@zilliz/milvus2-sdk-node'
-    ],
-    outputFileTracingRoot: path.join(__dirname, '../../'),
-    instrumentationHook: true
-  }
 };
 
-module.exports = nextConfig;
+export default nextConfig;
 
 function getWorkerConfig() {
-  const result = fs.readdirSync(path.resolve(__dirname, '../../packages/service/worker'));
+  const result = readdirSync(resolve(__dirname, '../../packages/service/worker'));
 
   // 获取所有的目录名
   const folderList = result.filter((item) => {
-    return fs
-      .statSync(path.resolve(__dirname, '../../packages/service/worker', item))
-      .isDirectory();
+    return statSync(resolve(__dirname, '../../packages/service/worker', item))
+        .isDirectory();
   });
 
   /* 
@@ -122,7 +121,7 @@ function getWorkerConfig() {
     }
   */
   const workerConfig = folderList.reduce((acc, item) => {
-    acc[`worker/${item}`] = path.resolve(
+    acc[`worker/${item}`] = resolve(
       process.cwd(),
       `../../packages/service/worker/${item}/index.ts`
     );
