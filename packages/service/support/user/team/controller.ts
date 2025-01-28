@@ -152,14 +152,7 @@ export async function joinDefaultTeam({
     username: 'root'
   });
 
-  console.log('rootUser:', rootUser);
-
   const team = await MongoTeam.findOne({
-    isPublic: true,
-    ownerId: rootUser?.userId
-  });
-
-  console.log('team_filter:', {
     isPublic: true,
     ownerId: rootUser?.userId
   });

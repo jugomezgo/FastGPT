@@ -106,6 +106,7 @@ export async function initSystemConfig() {
 
   // set config
   global.systemInitBufferId = configId;
+  console.log(config);
   initFastGPTConfig(config);
 
   console.log({

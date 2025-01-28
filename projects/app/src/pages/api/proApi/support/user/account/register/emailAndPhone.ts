@@ -6,9 +6,10 @@ import { joinDefaultTeam, getTmbInfoByTmbId } from '@fastgpt/service/support/use
 import { getUserDetail } from '@fastgpt/service/support/user/controller';
 import { pushTrack } from '@fastgpt/service/common/middle/tracks/utils';
 import { createJWT, setCookie } from '@fastgpt/service/support/permission/controller';
-import { vericationService } from '@fastgpt/service/support/user/inform/verificationCode/service';
+import { verificationService } from '@fastgpt/service/support/user/inform/verificationCode/service';
 import { VerificationCodeType } from '@fastgpt/service/support/user/inform/verificationCode/type';
 import { mongoSessionRun } from '@fastgpt/service/common/mongo/sessionRun';
+import user from '@fastgpt/global/common/error/code/user';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { username, password, code } = req.body as {
@@ -22,10 +23,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   // 验证验证码
-  const verified = await vericationService.verify({
+  const verified = await verificationService.verify({
     email: username,
     code,
-    type: VerificationCodeType.LOGIN
+    type: VerificationCodeType.REGISTER
   });
 
   if (!verified) {
@@ -41,9 +42,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return Promise.reject('User already exists');
   }
 
-  let result;
   try {
-    result = await mongoSessionRun(async (session) => {
+    const result = await mongoSessionRun(async (session) => {
       // 在数据库创建用户
       const users = await MongoUser.create(
         [
@@ -62,43 +62,50 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         session
       });
 
-      const tmbInfo = await getTmbInfoByTmbId({
-        tmbId: tmb._id
-      });
-
-      const userDetail = await getUserDetail({
-        tmbId: tmb._id,
-        userId: tmbInfo.userId
-      });
-
-      MongoUser.findByIdAndUpdate(user._id, {
-        lastLoginTmbId: userDetail.team.tmbId
-      });
-
-      pushTrack.login({
-        type: 'password',
-        uid: user._id,
-        teamId: userDetail.team.teamId,
-        tmbId: userDetail.team.tmbId
-      });
-
-      const token = createJWT({
-        ...userDetail,
-        isRoot: username === 'root'
-      });
-
-      setCookie(res, token);
-
       return {
-        user: userDetail,
-        token
+        user,
+        tmb
       };
     });
+
+    const { user, tmb } = result;
+
+    console.log('tmb', tmb);
+
+    const tmbInfo = await getTmbInfoByTmbId({
+      tmbId: tmb._id
+    });
+
+    const userDetail = await getUserDetail({
+      tmbId: tmb._id,
+      userId: tmbInfo.userId
+    });
+
+    MongoUser.findByIdAndUpdate(user._id, {
+      lastLoginTmbId: userDetail.team.tmbId
+    });
+
+    pushTrack.login({
+      type: 'password',
+      uid: user._id,
+      teamId: userDetail.team.teamId,
+      tmbId: userDetail.team.tmbId
+    });
+
+    const token = createJWT({
+      ...userDetail,
+      isRoot: username === 'root'
+    });
+
+    setCookie(res, token);
+
+    return {
+      user: userDetail,
+      token
+    };
   } catch (error) {
     return Promise.reject(error);
   }
-
-  return result;
 }
 
 export default NextAPI(useReqFrequencyLimit(120, 10, true), handler);

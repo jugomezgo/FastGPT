@@ -2,7 +2,9 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { NextAPI } from '@/service/middleware/entry';
 import { useReqFrequencyLimit } from '@fastgpt/service/common/middle/reqFrequencyLimit';
-import { vericationService } from '@fastgpt/service/support/user/inform/verificationCode/service';
+import { verificationService } from '@fastgpt/service/support/user/inform/verificationCode/service';
+import { EmailSender } from '@fastgpt/service/support/user/inform/email/sender';
+import { verificationCodeMsg } from '@fastgpt/service/support/user/inform/email/templates';
 import { VerificationCodeType } from '@fastgpt/service/support/user/inform/verificationCode/type';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -23,9 +25,28 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     throw 'empty email';
   }
 
-  await vericationService.createAndSend({
+  // 检查global内的email配置
+  if (!global.systemEnv.email) {
+    throw 'email config not found';
+  }
+
+  console.log('sendAuthCode', global.systemEnv.email);
+
+  // 初始化emailSender
+  const emailSender = EmailSender.getInstance(global.systemEnv.email);
+
+  console.log('type', req.body.type);
+
+  const code = await verificationService.create({
     email: userEmail,
-    type: VerificationCodeType.LOGIN
+    type: req.body.type || VerificationCodeType.LOGIN
+  });
+
+  // 发送邮件
+  const emailTemplat = verificationCodeMsg(String(code));
+  await emailSender.sendMail({
+    to: userEmail,
+    ...emailTemplat
   });
   return void 0;
 }

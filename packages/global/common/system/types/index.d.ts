@@ -108,4 +108,11 @@ export type SystemEnvType = {
 
   oneapiUrl?: string;
   chatApiKey?: string;
+  email?: {
+    host: string;
+    port: number;
+    secure: boolean;
+    username: string;
+    password: string;
+  };
 };

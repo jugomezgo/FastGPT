@@ -2,10 +2,10 @@ import { Document } from 'mongoose';
 
 // 验证码类型枚举
 export enum VerificationCodeType {
-  REGISTER = 'REGISTER',
-  RESET_PASSWORD = 'RESET_PASSWORD',
-  LOGIN = 'LOGIN',
-  CHANGE_EMAIL = 'CHANGE_EMAIL'
+  REGISTER = 'register',
+  RESET_PASSWORD = 'reset_password',
+  CHANGE_EMAIL = 'change_email',
+  LOGIN = 'login'
 }
 
 // 基础验证码接口
@@ -38,7 +38,7 @@ export interface VerifyCodeDto {
 
 // 服务接口
 export interface IVerificationCodeService {
-  createAndSend(data: CreateVerificationCodeDto): Promise<void>;
+  create(data: CreateVerificationCodeDto): Promise<number>;
   verify(data: VerifyCodeDto): Promise<boolean>;
   invalidate(email: string, type: VerificationCodeType): Promise<void>;
   checkSendFrequency(email: string): Promise<boolean>;

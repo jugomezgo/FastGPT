@@ -21,7 +21,7 @@ export class verificationCodeService implements IVerificationCodeService {
       .slice(2, 2 + config.codeLength);
   }
 
-  async createAndSend(data: CreateVerificationCodeDto): Promise<void> {
+  async create(data: CreateVerificationCodeDto): Promise<number> {
     const canSend = await this.checkSendFrequency(data.email);
     if (!canSend) {
       throw new Error(VerificationCodeError.SEND_TOO_FREQUENT);
@@ -37,8 +37,7 @@ export class verificationCodeService implements IVerificationCodeService {
       ip: data.ip
     });
 
-    // TODO: 实现邮件发送
-    // await this.sendEmail(data.email, code);
+    return parseInt(code);
   }
 
   async verify(data: VerifyCodeDto): Promise<boolean> {
@@ -83,4 +82,4 @@ export class verificationCodeService implements IVerificationCodeService {
   }
 }
 
-export const vericationService = new verificationCodeService();
+export const verificationService = new verificationCodeService();
