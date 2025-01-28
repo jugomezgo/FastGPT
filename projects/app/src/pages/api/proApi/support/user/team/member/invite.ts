@@ -41,15 +41,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           userId: user._id
         });
 
-        if (teamMember) {
+        if (teamMember && teamMember.status === 'active') {
           return { type: 'inTeam', username, userId: user._id };
         }
 
-        await MongoTeamMember.create({
-          teamId: tmb.teamId,
-          userId: user._id,
-          status: 'waiting'
-        });
+        if (!teamMember) {
+          await MongoTeamMember.create({
+            teamId: tmb.teamId,
+            userId: user._id,
+            status: 'waiting'
+          });
+        } else {
+          await MongoTeamMember.findByIdAndUpdate(teamMember.tmbId, {
+            status: 'waiting'
+          });
+        }
 
         return { type: 'invite', username, userId: user._id };
       } catch (e) {
