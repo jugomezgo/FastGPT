@@ -3,7 +3,6 @@ import { createDefaultTeam } from '@fastgpt/service/support/user/team/controller
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { NextAPI } from '@/service/middleware/entry';
-import { useReqFrequencyLimit } from '@fastgpt/service/common/middle/reqFrequencyLimit';
 import { authUserPer } from '@fastgpt/service/support/permission/user/auth';
 import { mongoSessionRun } from '@fastgpt/service/common/mongo/sessionRun';
 
@@ -80,4 +79,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   return {};
 }
 
-export default NextAPI(useReqFrequencyLimit(120, 10, true), handler);
+export default NextAPI(handler);

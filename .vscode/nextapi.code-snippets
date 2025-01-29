@@ -133,7 +133,7 @@
 		"  $1",
 		"}",
 		"",
-		"export default NextAPI(useReqFrequencyLimit(${2:120}, ${3:10}, ${4:true}), handler);"
+		"export default NextAPI(handler);"
 		]
 	}
 }

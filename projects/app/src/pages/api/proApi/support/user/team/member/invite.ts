@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { NextAPI } from '@/service/middleware/entry';
-import { useReqFrequencyLimit } from '@fastgpt/service/common/middle/reqFrequencyLimit';
 import { authUserPer } from '@fastgpt/service/support/permission/user/auth';
 import { InviteMemberProps } from '@fastgpt/global/support/user/team/controller.d';
 import { authUserExist } from '@fastgpt/service/support/user/controller';
@@ -86,4 +85,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   };
 }
 
-export default NextAPI(useReqFrequencyLimit(120, 10, true), handler);
+export default NextAPI(handler);

@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { NextAPI } from '@/service/middleware/entry';
-import { useReqFrequencyLimit } from '@fastgpt/service/common/middle/reqFrequencyLimit';
 import { authCert } from '@fastgpt/service/support/permission/auth/common';
 import { MongoTeamMember } from '@fastgpt/service/support/user/team/teamMemberSchema';
 import { getTmbInfoByTmbId } from '@fastgpt/service/support/user/team/controller';
@@ -40,4 +39,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   return teamList;
 }
 
-export default NextAPI(useReqFrequencyLimit(120, 10, true), handler);
+export default NextAPI(handler);
