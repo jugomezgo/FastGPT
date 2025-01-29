@@ -6,14 +6,17 @@ import { listCollaborator } from '@fastgpt/service/support/permission/collaborat
 import { PerResourceTypeEnum } from '@fastgpt/global/support/permission/constant';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { tmb, teamId } = await authUserPer({
+  const { teamId } = await authUserPer({
     req,
     authToken: true
   });
 
+  const { datasetId } = req.query as { datasetId: string };
+
   return await listCollaborator({
     teamId: teamId.toString(),
-    resourceType: PerResourceTypeEnum.team
+    resourceType: PerResourceTypeEnum.app,
+    resourceId: datasetId
   });
 }
 
