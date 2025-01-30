@@ -80,18 +80,25 @@ export async function createDefaultTeam({
   userId,
   teamName = 'My Team',
   avatar = '/icon/logo.svg',
-  session
+  session,
+  shouldNotHaveDefaultTeam = true
 }: {
   userId: string;
   teamName?: string;
   avatar?: string;
   session: ClientSession;
+  shouldNotHaveDefaultTeam?: boolean;
 }) {
-  // auth default team
-  const tmb = await MongoTeamMember.findOne({
-    userId: new Types.ObjectId(userId),
-    defaultTeam: true
-  });
+  let tmb;
+  if (shouldNotHaveDefaultTeam) {
+    // auth default team
+    tmb = await MongoTeamMember.findOne({
+      userId: new Types.ObjectId(userId),
+      defaultTeam: true
+    });
+  } else {
+    tmb = null;
+  }
 
   if (!tmb) {
     // create team

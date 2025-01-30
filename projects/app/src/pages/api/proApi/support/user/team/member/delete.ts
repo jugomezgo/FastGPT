@@ -62,7 +62,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (userTeamCount === 1) {
       await createDefaultTeam({
         userId: targetMember.userId,
-        session
+        session,
+        shouldNotHaveDefaultTeam: false
       });
     }
 
