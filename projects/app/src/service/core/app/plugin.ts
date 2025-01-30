@@ -72,7 +72,7 @@ export const getSystemPluginCb = async (refresh = false) => {
   try {
     global.systemPluginCb = {};
     await getSystemPlugins(refresh);
-    global.systemPluginCb = FastGPTProUrl ? await getCommercialCb() : await getCommunityCb();
+    global.systemPluginCb = await getCommunityCb();
     return global.systemPluginCb;
   } catch (error) {
     return Promise.reject(error);
