@@ -4,12 +4,12 @@ import { NextAPI } from '@/service/middleware/entry';
 import { authUserPer } from '@fastgpt/service/support/permission/user/auth';
 import { InviteMemberProps } from '@fastgpt/global/support/user/team/controller.d';
 import { authUserExist } from '@fastgpt/service/support/user/controller';
-import { getTeamMember } from '@fastgpt/service/support/user/team/controller';
 import { MongoTeamMember } from '@fastgpt/service/support/user/team/teamMemberSchema';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const props = req.body as InviteMemberProps;
   const usernames = props.usernames;
+  const teamId = props.teamId;
   let invite: { username: string; userId: string }[] = [];
   let inValid: { username: string; userId: string }[] = [];
   let inTeam: { username: string; userId: string }[] = [];
@@ -36,8 +36,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           return { type: 'invalid', username, userId: '' };
         }
 
-        const teamMember = await getTeamMember({
-          userId: user._id
+        const teamMember = await MongoTeamMember.findOne({
+          userId: user._id,
+          teamId,
+          status: ['active', 'waiting']
         });
 
         if (teamMember && teamMember.status === 'active') {
@@ -51,7 +53,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             status: 'waiting'
           });
         } else {
-          await MongoTeamMember.findByIdAndUpdate(teamMember.tmbId, {
+          await MongoTeamMember.findByIdAndUpdate(teamMember._id, {
             status: 'waiting'
           });
         }
