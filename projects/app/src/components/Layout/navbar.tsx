@@ -65,13 +65,13 @@ const Navbar = ({ unread }: { unread: number }) => {
         link: `/dataset/list`,
         activeLink: ['/dataset/list', '/dataset/detail']
       },
-      {
-        label: t('common:navbar.Toolkit'),
-        icon: 'phoneTabbar/tool',
-        activeIcon: 'phoneTabbar/toolFill',
-        link: `/toolkit`,
-        activeLink: ['/toolkit']
-      },
+      // {
+      //   label: t('common:navbar.Toolkit'),
+      //   icon: 'phoneTabbar/tool',
+      //   activeIcon: 'phoneTabbar/toolFill',
+      //   link: `/toolkit`,
+      //   activeLink: ['/toolkit']
+      // },
       {
         label: t('common:navbar.Account'),
         icon: 'support/user/userLight',
