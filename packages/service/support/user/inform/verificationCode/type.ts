@@ -5,7 +5,8 @@ export enum VerificationCodeType {
   REGISTER = 'register',
   RESET_PASSWORD = 'reset_password',
   CHANGE_EMAIL = 'change_email',
-  LOGIN = 'login'
+  LOGIN = 'login',
+  bindNotification = 'bindNotification'
 }
 
 // 基础验证码接口

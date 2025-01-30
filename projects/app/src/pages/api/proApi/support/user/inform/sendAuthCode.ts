@@ -12,9 +12,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     throw 'invalid method';
   }
 
-  const { email, username } = req.body as {
+  const { email, username, type } = req.body as {
     email?: string;
     username?: string;
+    type?: VerificationCodeType;
   };
 
   // 使用 email 或 username
@@ -30,16 +31,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     throw 'email config not found';
   }
 
-  console.log('sendAuthCode', global.systemEnv.email);
-
   // 初始化emailSender
   const emailSender = EmailSender.getInstance(global.systemEnv.email);
 
-  console.log('type', req.body.type);
-
   const code = await verificationService.create({
     email: userEmail,
-    type: req.body.type || VerificationCodeType.LOGIN
+    type: type || VerificationCodeType.LOGIN
   });
 
   // 发送邮件

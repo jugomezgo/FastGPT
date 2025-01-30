@@ -9,7 +9,6 @@ import { createJWT, setCookie } from '@fastgpt/service/support/permission/contro
 import { verificationService } from '@fastgpt/service/support/user/inform/verificationCode/service';
 import { VerificationCodeType } from '@fastgpt/service/support/user/inform/verificationCode/type';
 import { mongoSessionRun } from '@fastgpt/service/common/mongo/sessionRun';
-import user from '@fastgpt/global/common/error/code/user';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { username, password, code } = req.body as {
