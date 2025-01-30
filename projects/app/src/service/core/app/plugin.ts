@@ -21,9 +21,7 @@ export const getSystemPlugins = async (refresh = false) => {
       global.systemPlugins = [];
     }
 
-    global.systemPlugins = FastGPTProUrl
-      ? await getCommercialPlugins()
-      : await getCommunityPlugins();
+    global.systemPlugins = await getCommunityPlugins();
 
     addLog.info(`Load system plugin successfully: ${global.systemPlugins.length}`);
 
@@ -69,6 +67,7 @@ export const getSystemPluginCb = async (refresh = false) => {
   )
     return global.systemPluginCb;
 
+  console.log('getSystemPluginCb');
   try {
     global.systemPluginCb = {};
     await getSystemPlugins(refresh);

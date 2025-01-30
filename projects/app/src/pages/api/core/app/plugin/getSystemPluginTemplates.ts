@@ -24,6 +24,7 @@ async function handler(
 
   const formatParentId = parentId || null;
 
+  console.log('formatParentId', formatParentId);
   // Make sure system plugin callbacks are loaded
   if (!global.systemPluginCb || Object.keys(global.systemPluginCb).length === 0)
     await getSystemPluginCb();
