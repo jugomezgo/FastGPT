@@ -15,7 +15,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   return await listCollaborator({
     teamId: teamId.toString(),
-    resourceType: PerResourceTypeEnum.app,
+    resourceType: PerResourceTypeEnum.dataset,
     resourceId: datasetId
   });
 }

@@ -26,11 +26,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     throw 'empty teamId';
   }
 
+  console.log('switch team', userId, teamId);
+
   const member = await MongoTeamMember.findOne({ userId, teamId });
 
   if (!member) {
     throw 'not a member of the team';
   }
+
+  console.log('switch team', member);
 
   const userDetail = await getUserDetail({
     tmbId: member._id,

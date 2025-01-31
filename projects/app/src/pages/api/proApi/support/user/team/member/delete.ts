@@ -30,8 +30,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   // 查找目标成员是否存在
   const targetMember = await MongoTeamMember.findOne({
-    _id: tmbId,
-    status: 'active'
+    _id: tmbId
   });
 
   if (!targetMember) {
@@ -43,8 +42,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     userId: targetMember.userId,
     status: 'active'
   });
-
-  console.log('userTeamCount', userTeamCount);
 
   await mongoSessionRun(async (session) => {
     // 如果当前团队为其默认团队，设为非默认团队

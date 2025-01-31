@@ -19,7 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     groupId,
     orgId,
     teamId,
-    resourceType: PerResourceTypeEnum.app,
+    resourceType: PerResourceTypeEnum.dataset,
     resourceId: datasetId
   });
 }

@@ -25,7 +25,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     orgs,
     permission,
     teamId,
-    resourceType: PerResourceTypeEnum.app,
+    resourceType: PerResourceTypeEnum.dataset,
     resourceId: datasetId
   });
 }

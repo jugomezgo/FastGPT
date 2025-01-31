@@ -29,7 +29,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   // 并行处理所有用户验证
   const results = await Promise.all(
+    // 去除两端的空格
     usernames.map(async (username) => {
+      username = username.trim();
       try {
         const user = await authUserExist({ username });
         if (!user) {
@@ -38,8 +40,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
         const teamMember = await MongoTeamMember.findOne({
           userId: user._id,
-          teamId,
-          status: ['active', 'waiting']
+          teamId
         });
 
         if (teamMember && teamMember.status === 'active') {
@@ -71,7 +72,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       case 'invite':
         invite.push({ username: result.username, userId: result.userId });
         break;
-      case 'inValid':
+      case 'invalid':
         inValid.push({ username: result.username, userId: result.userId });
         break;
       case 'inTeam':
