@@ -1,23 +1,37 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { NextAPI } from '@/service/middleware/entry';
-import { authUserPer } from '@fastgpt/service/support/permission/user/auth';
 import { updateClbPermission } from '@fastgpt/service/support/permission/collaborator/update';
-import { PerResourceTypeEnum } from '@fastgpt/global/support/permission/constant';
 import { UpdateDatasetCollaboratorBody } from '@fastgpt/global/core/dataset/collaborator';
+import { authDataset } from '@fastgpt/service/support/permission/dataset/auth';
+import { MongoDataset } from '@fastgpt/service/core/dataset/schema';
+import {
+  ManagePermissionVal,
+  PerResourceTypeEnum
+} from '@fastgpt/global/support/permission/constant';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { tmb, teamId } = await authUserPer({
+  const { teamId, dataset } = await authDataset({
+    datasetId: req.body.datasetId,
     req,
-    authToken: true
+    authToken: true,
+    per: ManagePermissionVal
   });
-
-  if (tmb.role !== 'owner') {
-    throw 'common:code_error.team_error.un_auth';
-  }
 
   const { members, groups, orgs, permission, datasetId } =
     req.body as UpdateDatasetCollaboratorBody;
+
+  // If the dataset has a parent, set its inherit permission to false
+  if (dataset.parentId) {
+    await MongoDataset.updateOne(
+      {
+        _id: datasetId
+      },
+      {
+        inheritPermission: false
+      }
+    );
+  }
 
   return await updateClbPermission({
     members,
