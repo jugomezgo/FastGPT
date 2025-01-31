@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { NextAPI } from '@/service/middleware/entry';
-import { authUserPer } from '@fastgpt/service/support/permission/user/auth';
 import { AppCollaboratorDeleteParams } from '@fastgpt/global/core/app/collaborator';
 import { deletePermission } from '@fastgpt/service/support/permission/collaborator/delete';
 import { authApp } from '@fastgpt/service/support/permission/app/auth';
